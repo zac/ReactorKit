@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>ReactorKit  Reference</title>
+    <link rel="stylesheet" type="text/css" href="css/jazzy.css" />
+    <link rel="stylesheet" type="text/css" href="css/highlight.css" />
+    <meta charset='utf-8'>
+    <script src="js/jquery.min.js" defer></script>
+    <script src="js/jazzy.js" defer></script>
+    
+  </head>
+  <body>
+    <a title="ReactorKit  Reference"></a>
+    <header>
+      <div class="content-wrapper">
+        <p><a href="index.html">ReactorKit Docs</a> (53% documented)</p>
+        <p class="header-right"><a href="https://github.com/devxoul/ReactorKit"><img src="img/gh.png"/>View on GitHub</a></p>
+        <p class="header-right"><a href="dash-feed://http%3A%2F%2Freactorkit%2Eio%2Fdocsets%2FReactorKit%2Exml"><img src="img/dash.png"/>Install in Dash</a></p>
+      </div>
+    </header>
+    <div class="content-wrapper">
+      <p id="breadcrumbs">
+        <a href="index.html">ReactorKit Reference</a>
+        <img id="carat" src="img/carat.png" />
+        ReactorKit  Reference
+      </p>
+    </div>
+    <div class="content-wrapper">
+      <nav class="sidebar">
+        <ul class="nav-groups">
+          <li class="nav-group-name">
+            <a href="Protocols.html">Protocols</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="Protocols/Reactor.html">Reactor</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Protocols/View.html">View</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="Structs.html">Structs</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="Structs.html#/s:V10ReactorKit8NoAction">NoAction</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Structs.html#/s:V10ReactorKit10NoMutation">NoMutation</a>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </nav>
+      <article class="main-content">
+        <section>
+          <section class="section">
+            
+            <p><img alt="ReactorKit" src="https://cloud.githubusercontent.com/assets/931655/25277625/6aa05998-26da-11e7-9b85-e48bec938a6e.png" style="max-width: 100%"></p>
+
+<p align="center">
+  <img alt="Swift" src="https://img.shields.io/badge/Swift-3.1-orange.svg">
+  <a href="https://travis-ci.org/devxoul/ReactorKit" target="_blank">
+    <img alt="Build Status" src="https://travis-ci.org/devxoul/ReactorKit.svg?branch=master">
+  </a>
+  <a href="https://cocoapods.org/pods/ReactorKit" target="_blank">
+    <img alt="CocoaPods" src="http://img.shields.io/cocoapods/v/ReactorKit.svg">
+  </a>
+  <a href="https://github.com/ReactorKit/ReactorKit" target="_blank">
+    <img alt="Platform" src="https://img.shields.io/cocoapods/p/ReactorKit.svg?style=flat">
+  </a>
+  <a href="http://cocoadocs.org/docsets/ReactorKit/" target="_blank">
+    <img alt="CocoaDocs" src="https://img.shields.io/cocoapods/metrics/doc-percent/ReactorKit.svg">
+  </a>
+</p>
+
+<p>ReactorKit is a framework for reactive and unidirectional Swift application architecture. This repository introduces the basic concept of ReactorKit and describes how to build an application using ReactorKit.</p>
+
+<p>You may want to see <a href="#examples">Examples</a> section first if you&rsquo;d like to see the actual code. Visit <a href="http://cocoadocs.org/docsets/ReactorKit">API Reference</a> for code-level documentation.</p>
+<a href='#table-of-contents' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h2 id='table-of-contents'>Table of Contents</h2>
+
+<ul>
+<li><a href="#basic-concept">Basic Concept</a>
+
+<ul>
+<li><a href="#view">View</a></li>
+<li><a href="#reactor">Reactor</a></li>
+</ul></li>
+<li><a href="#advanced">Advanced</a>
+
+<ul>
+<li><a href="#service">Service</a></li>
+<li><a href="#serviceprovider">ServiceProvider</a></li>
+</ul></li>
+<li><a href="#conventions">Conventions</a></li>
+<li><a href="#examples">Examples</a></li>
+<li><a href="#dependencies">Dependencies</a></li>
+<li><a href="#requirements">Requirements</a></li>
+<li><a href="#installation">Installation</a></li>
+<li><a href="#contribution">Contributing</a></li>
+<li><a href="#changelog">Changelog</a></li>
+<li><a href="#license">License</a></li>
+</ul>
+<a href='#basic-concept' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h2 id='basic-concept'>Basic Concept</h2>
+
+<p>ReactorKit is a combination of <a href="https://facebook.github.io/flux/">Flux</a> and <a href="https://en.wikipedia.org/wiki/Reactive_programming">Reactive Programming</a>. The user actions and the view states are delivered to each layer via observable streams. These streams are unidirectional so the view can only emit actions and the reactor can only emit states.</p>
+
+<p align="center">
+  <img alt="flow" src="https://cloud.githubusercontent.com/assets/931655/25073432/a91c1688-2321-11e7-8f04-bf91031a09dd.png" width="600">
+</p>
+<a href='#view' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h3 id='view'>View</h3>
+
+<p><em>View</em> displays data. A view controller and a cell are treated as a view. The view binds user-inputs to the action stream and binds the view states to each UI components. There&rsquo;s no business logic in a view layer. A view just defines how to map the action stream and the state stream.</p>
+
+<p>To define a view, just conform a protocol named <code>View</code> to an existing class. Then your class will have a property named <code>reactor</code> automatically. This property is typically set outside of the view.</p>
+<pre class="highlight swift"><code><span class="kd">class</span> <span class="kt">ProfileViewController</span><span class="p">:</span> <span class="kt">UIViewController</span><span class="p">,</span> <span class="kt">View</span> <span class="p">{</span>
+  <span class="k">var</span> <span class="nv">disposeBag</span> <span class="o">=</span> <span class="kt">DisposeBag</span><span class="p">()</span>
+<span class="p">}</span>
+
+<span class="n">profileViewController</span><span class="o">.</span><span class="n">reactor</span> <span class="o">=</span> <span class="kt">UserViewReactor</span><span class="p">()</span> <span class="c1">// inject reactor</span>
+</code></pre>
+
+<p>When the <code>reactor</code> property has changed, <code>bind(reactor:)</code> gets called. Implement this method to define the bindings of an action stream and a state stream.</p>
+<pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">bind</span><span class="p">(</span><span class="nv">reactor</span><span class="p">:</span> <span class="kt">ProfileViewReactor</span><span class="p">)</span> <span class="p">{</span>
+  <span class="c1">// action (View -&gt; Reactor)</span>
+  <span class="n">refreshButton</span><span class="o">.</span><span class="n">rx</span><span class="o">.</span><span class="n">tap</span><span class="o">.</span><span class="n">map</span> <span class="p">{</span> <span class="kt">Reactor</span><span class="o">.</span><span class="kt">Action</span><span class="o">.</span><span class="n">refresh</span> <span class="p">}</span>
+    <span class="o">.</span><span class="nf">bindTo</span><span class="p">(</span><span class="n">reactor</span><span class="o">.</span><span class="n">action</span><span class="p">)</span>
+    <span class="o">.</span><span class="nf">addDisposableTo</span><span class="p">(</span><span class="k">self</span><span class="o">.</span><span class="n">disposeBag</span><span class="p">)</span>
+
+  <span class="c1">// state (Reactor -&gt; View)</span>
+  <span class="n">reactor</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">map</span> <span class="p">{</span> <span class="nv">$0</span><span class="o">.</span><span class="n">isFollowing</span> <span class="p">}</span>
+    <span class="o">.</span><span class="nf">bindTo</span><span class="p">(</span><span class="n">followButton</span><span class="o">.</span><span class="n">rx</span><span class="o">.</span><span class="n">isSelected</span><span class="p">)</span>
+    <span class="o">.</span><span class="nf">addDisposableTo</span><span class="p">(</span><span class="k">self</span><span class="o">.</span><span class="n">disposeBag</span><span class="p">)</span>
+<span class="p">}</span>
+</code></pre>
+<a href='#reactor' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h3 id='reactor'>Reactor</h3>
+
+<p><em>Reactor</em> is an UI independent layer which manages the state of a view. The foremost role of a reactor is to separate control flow from a view. Every view has its corresponding reactor and delegates every logical things to its reactor. A reactor has no dependency of a view so it can be easily tested.</p>
+
+<p>Conform a protocol named <code>Reactor</code> to define a reactor. This protocol requires three types: <code>Action</code>, <code>Mutation</code> and <code>State</code>. It also requies a property named <code>initialState</code>.</p>
+<pre class="highlight swift"><code><span class="kd">class</span> <span class="kt">ProfileViewReactor</span><span class="p">:</span> <span class="kt">Reactor</span> <span class="p">{</span>
+  <span class="c1">// about what user did</span>
+  <span class="kd">enum</span> <span class="kt">Action</span> <span class="p">{</span>
+    <span class="k">case</span> <span class="nf">refreshFollowingStatus</span><span class="p">(</span><span class="kt">Int</span><span class="p">)</span>
+    <span class="k">case</span> <span class="nf">follow</span><span class="p">(</span><span class="kt">Int</span><span class="p">)</span>
+  <span class="p">}</span>
+
+  <span class="c1">// about how to manipulate the state</span>
+  <span class="kd">enum</span> <span class="kt">Mutation</span> <span class="p">{</span>
+    <span class="k">case</span> <span class="nf">setFollowing</span><span class="p">(</span><span class="kt">Bool</span><span class="p">)</span>
+  <span class="p">}</span>
+
+  <span class="c1">// about current view state</span>
+  <span class="kd">struct</span> <span class="kt">State</span> <span class="p">{</span>
+    <span class="k">var</span> <span class="nv">isFollowing</span><span class="p">:</span> <span class="kt">Bool</span> <span class="o">=</span> <span class="kc">false</span>
+  <span class="p">}</span>
+
+  <span class="k">let</span> <span class="nv">initialState</span><span class="p">:</span> <span class="kt">State</span> <span class="o">=</span> <span class="kt">State</span><span class="p">()</span>
+<span class="p">}</span>
+</code></pre>
+
+<p><code>Action</code> represents an user interaction and <code>State</code> represents a view state. <code>Mutation</code> is a bridge between <code>Action</code> and <code>State</code>. A reactor converts the action stream to the state stream in two steps: <code>mutate()</code> and <code>reduce()</code>.</p>
+
+<p align="center">
+  <img alt="flow-reactor" src="https://cloud.githubusercontent.com/assets/931655/25098066/2de21a28-23e2-11e7-8a41-d33d199dd951.png" width="800">
+</p>
+<a href='#code-mutate-code' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h4 id='code-mutate-code'><code>mutate()</code></h4>
+
+<p><code>mutate()</code> receives an <code>Action</code> and generates an <code>Observable&lt;Mutation&gt;</code>.</p>
+<pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">mutate</span><span class="p">(</span><span class="nv">action</span><span class="p">:</span> <span class="kt">Action</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Observable</span><span class="o">&lt;</span><span class="kt">Mutation</span><span class="o">&gt;</span>
+</code></pre>
+
+<p>Every side effect such as async operation or API call are performed in this method.</p>
+<pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">mutate</span><span class="p">(</span><span class="nv">action</span><span class="p">:</span> <span class="kt">Action</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Observable</span><span class="o">&lt;</span><span class="kt">Mutation</span><span class="o">&gt;</span> <span class="p">{</span>
+  <span class="k">switch</span> <span class="n">action</span> <span class="p">{</span>
+  <span class="k">case</span> <span class="kd">let</span> <span class="o">.</span><span class="nf">refreshFollowingStatus</span><span class="p">(</span><span class="n">userID</span><span class="p">):</span> <span class="c1">// receive an action</span>
+    <span class="k">return</span> <span class="kt">UserAPI</span><span class="o">.</span><span class="nf">isFollowing</span><span class="p">(</span><span class="n">userID</span><span class="p">)</span> <span class="c1">// create an API stream</span>
+      <span class="o">.</span><span class="n">map</span> <span class="p">{</span> <span class="p">(</span><span class="nv">isFollowing</span><span class="p">:</span> <span class="kt">Bool</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Mutation</span> <span class="k">in</span>
+        <span class="k">return</span> <span class="kt">Mutation</span><span class="o">.</span><span class="nf">setFollowing</span><span class="p">(</span><span class="n">isFollowing</span><span class="p">)</span> <span class="c1">// convert to Mutation stream</span>
+      <span class="p">}</span>
+
+  <span class="k">case</span> <span class="kd">let</span> <span class="o">.</span><span class="nf">follow</span><span class="p">(</span><span class="n">userID</span><span class="p">):</span>
+    <span class="k">return</span> <span class="kt">UserAPI</span><span class="o">.</span><span class="nf">follow</span><span class="p">()</span>
+      <span class="o">.</span><span class="n">map</span> <span class="p">{</span> <span class="n">_</span> <span class="o">-&gt;</span> <span class="kt">Mutation</span> <span class="k">in</span>
+        <span class="k">return</span> <span class="kt">Mutation</span><span class="o">.</span><span class="nf">setFollowing</span><span class="p">(</span><span class="kc">true</span><span class="p">)</span>
+      <span class="p">}</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</code></pre>
+<a href='#code-reduce-code' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h4 id='code-reduce-code'><code>reduce()</code></h4>
+
+<p><code>reduce()</code> generates a new <code>State</code> from an old <code>State</code> and a <code>Mutation</code>. </p>
+<pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">reduce</span><span class="p">(</span><span class="nv">state</span><span class="p">:</span> <span class="kt">State</span><span class="p">,</span> <span class="nv">mutation</span><span class="p">:</span> <span class="kt">Mutation</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">State</span>
+</code></pre>
+
+<p>This method is a pure function. It should just return a new <code>State</code> synchronously. Don&rsquo;t perform any side effects in this function.</p>
+<pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">reduce</span><span class="p">(</span><span class="nv">state</span><span class="p">:</span> <span class="kt">State</span><span class="p">,</span> <span class="nv">mutation</span><span class="p">:</span> <span class="kt">Mutation</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">State</span> <span class="p">{</span>
+  <span class="k">var</span> <span class="nv">state</span> <span class="o">=</span> <span class="n">state</span> <span class="c1">// create a copy of old state</span>
+  <span class="k">switch</span> <span class="n">mutation</span> <span class="p">{</span>
+  <span class="k">case</span> <span class="kd">let</span> <span class="o">.</span><span class="nf">setFollowing</span><span class="p">(</span><span class="n">isFollowing</span><span class="p">):</span>
+    <span class="n">state</span><span class="o">.</span><span class="n">isFollowing</span> <span class="o">=</span> <span class="n">isFollowing</span> <span class="c1">// manipulate a new state</span>
+    <span class="k">return</span> <span class="n">state</span> <span class="c1">// return a new state</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</code></pre>
+<a href='#code-transform-code' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h4 id='code-transform-code'><code>transform()</code></h4>
+
+<p><code>transform()</code> transforms each streams. There are three <code>transform()</code> functions:</p>
+<pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">transform</span><span class="p">(</span><span class="nv">action</span><span class="p">:</span> <span class="kt">Observable</span><span class="o">&lt;</span><span class="kt">Action</span><span class="o">&gt;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Observable</span><span class="o">&lt;</span><span class="kt">Action</span><span class="o">&gt;</span>
+<span class="kd">func</span> <span class="nf">transform</span><span class="p">(</span><span class="nv">mutation</span><span class="p">:</span> <span class="kt">Observable</span><span class="o">&lt;</span><span class="kt">Mutation</span><span class="o">&gt;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Observable</span><span class="o">&lt;</span><span class="kt">Mutation</span><span class="o">&gt;</span>
+<span class="kd">func</span> <span class="nf">transform</span><span class="p">(</span><span class="nv">state</span><span class="p">:</span> <span class="kt">Observable</span><span class="o">&lt;</span><span class="kt">State</span><span class="o">&gt;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Observable</span><span class="o">&lt;</span><span class="kt">State</span><span class="o">&gt;</span>
+</code></pre>
+
+<p>Implement these methods to transform and combine with other observable streams. For example, <code>transform(mutation:)</code> is the best place for combining a global event stream to a mutation stream.</p>
+
+<p>These methods can be also used for debugging purpose:</p>
+<pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">transform</span><span class="p">(</span><span class="nv">action</span><span class="p">:</span> <span class="kt">Observable</span><span class="o">&lt;</span><span class="kt">Action</span><span class="o">&gt;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Observable</span><span class="o">&lt;</span><span class="kt">Action</span><span class="o">&gt;</span> <span class="p">{</span>
+  <span class="k">return</span> <span class="n">action</span><span class="o">.</span><span class="nf">debug</span><span class="p">(</span><span class="s">"action"</span><span class="p">)</span> <span class="c1">// Use RxSwift's debug() operator</span>
+<span class="p">}</span>
+</code></pre>
+<a href='#advanced' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h2 id='advanced'>Advanced</h2>
+<a href='#service' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h3 id='service'>Service</h3>
+
+<p>ReactorKit has a special layer named <em>Service</em>. A service layer does an actual business logic. A reactor is a middle layer between a view and a service which manages event streams. When a reactor receives an user action from a view, the reactor calls the service logic. The service makes a network request and sends the response back to the reactor. Then the reactor create a mutation stream with the service response.</p>
+
+<p>Use this snippet for base service class:</p>
+<pre class="highlight swift"><code><span class="kd">class</span> <span class="kt">Service</span> <span class="p">{</span>
+  <span class="k">unowned</span> <span class="k">let</span> <span class="nv">provider</span><span class="p">:</span> <span class="kt">ServiceProviderType</span>
+
+  <span class="nf">init</span><span class="p">(</span><span class="nv">provider</span><span class="p">:</span> <span class="kt">ServiceProviderType</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">self</span><span class="o">.</span><span class="n">provider</span> <span class="o">=</span> <span class="n">provider</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</code></pre>
+
+<p>Here is an example of service:</p>
+<pre class="highlight swift"><code><span class="kd">protocol</span> <span class="kt">UserServiceType</span> <span class="p">{</span>
+  <span class="kd">func</span> <span class="nf">user</span><span class="p">(</span><span class="nv">id</span><span class="p">:</span> <span class="kt">Int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Observable</span><span class="o">&lt;</span><span class="kt">User</span><span class="o">&gt;</span>
+  <span class="kd">func</span> <span class="nf">follow</span><span class="p">(</span><span class="nv">id</span><span class="p">:</span> <span class="kt">Int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Observable</span><span class="o">&lt;</span><span class="kt">Void</span><span class="o">&gt;</span>
+<span class="p">}</span>
+
+<span class="kd">final</span> <span class="kd">class</span> <span class="kt">UserService</span><span class="p">:</span> <span class="kt">Service</span><span class="p">,</span> <span class="kt">UserServiceType</span> <span class="p">{</span>
+  <span class="kd">func</span> <span class="nf">user</span><span class="p">(</span><span class="nv">id</span><span class="p">:</span> <span class="kt">Int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Observable</span><span class="o">&lt;</span><span class="kt">User</span><span class="o">&gt;</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="nf">foo</span><span class="p">()</span>
+  <span class="p">}</span>
+
+  <span class="kd">func</span> <span class="nf">follow</span><span class="p">(</span><span class="nv">id</span><span class="p">:</span> <span class="kt">Int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Observable</span><span class="o">&lt;</span><span class="kt">Void</span><span class="o">&gt;</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="nf">bar</span><span class="p">()</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</code></pre>
+<a href='#serviceprovider' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h3 id='serviceprovider'>ServiceProvider</h3>
+
+<p>A single reactor can communicate with many services. <em>ServiceProvider</em> provides the references of each services to the reactor. The service provider is created once in the whole application life cycle and passed to the first reactor. The first reactor should pass the same reference of the service provider instance to a child reactor.</p>
+
+<p>This is an example service provider:</p>
+<pre class="highlight swift"><code><span class="kd">protocol</span> <span class="kt">ServiceProviderType</span><span class="p">:</span> <span class="kd">class</span> <span class="p">{</span>
+  <span class="k">var</span> <span class="nv">userDefaultsService</span><span class="p">:</span> <span class="kt">UserDefaultsServiceType</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span>
+  <span class="k">var</span> <span class="nv">userService</span><span class="p">:</span> <span class="kt">UserServiceType</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="kd">final</span> <span class="kd">class</span> <span class="kt">ServiceProvider</span><span class="p">:</span> <span class="kt">ServiceProviderType</span> <span class="p">{</span>
+  <span class="kd">lazy</span> <span class="k">var</span> <span class="nv">userDefaultsService</span><span class="p">:</span> <span class="kt">UserDefaultsServiceType</span> <span class="o">=</span> <span class="kt">UserDefaultsService</span><span class="p">(</span><span class="nv">provider</span><span class="p">:</span> <span class="k">self</span><span class="p">)</span>
+  <span class="kd">lazy</span> <span class="k">var</span> <span class="nv">userService</span><span class="p">:</span> <span class="kt">UserServiceType</span> <span class="o">=</span> <span class="kt">UserService</span><span class="p">(</span><span class="nv">provider</span><span class="p">:</span> <span class="k">self</span><span class="p">)</span>
+<span class="p">}</span>
+</code></pre>
+<a href='#conventions' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h2 id='conventions'>Conventions</h2>
+
+<p>ReactorKit suggests some conventions to write clean and concise code.</p>
+
+<ul>
+<li><p>A reactor should have the ServiceProvider as a first argument of an initializer.</p>
+<pre class="highlight swift"><code><span class="kd">class</span> <span class="kt">MyViewReactor</span> <span class="p">{</span>
+  <span class="nf">init</span><span class="p">(</span><span class="nv">provider</span><span class="p">:</span> <span class="kt">ServiceProviderType</span><span class="p">)</span>
+<span class="p">}</span>
+</code></pre></li>
+<li><p>You must create a reactor outside of a view and pass it to the view&rsquo;s <code>reactor</code> property.</p>
+
+<p><strong>Bad</strong></p>
+<pre class="highlight swift"><code><span class="kd">class</span> <span class="kt">MyView</span><span class="p">:</span> <span class="kt">UIView</span><span class="p">,</span> <span class="kt">View</span> <span class="p">{</span>
+  <span class="nf">init</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">self</span><span class="o">.</span><span class="n">reactor</span> <span class="o">=</span> <span class="kt">MyViewReactor</span><span class="p">()</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</code></pre>
+
+<p><strong>Good</strong></p>
+<pre class="highlight swift"><code><span class="k">let</span> <span class="nv">view</span> <span class="o">=</span> <span class="kt">MyView</span><span class="p">()</span>
+<span class="n">view</span><span class="o">.</span><span class="n">reactor</span> <span class="o">=</span> <span class="kt">MyViewReactor</span><span class="p">(</span><span class="nv">provider</span><span class="p">:</span> <span class="n">provider</span><span class="p">)</span>
+</code></pre></li>
+<li><p>The ServiceProvider should be created once and passed to the first-most View.</p>
+<pre class="highlight swift"><code><span class="k">let</span> <span class="nv">serviceProvider</span> <span class="o">=</span> <span class="kt">ServiceProvider</span><span class="p">()</span>
+<span class="k">let</span> <span class="nv">firstViewReactor</span> <span class="o">=</span> <span class="kt">FirstViewReactor</span><span class="p">(</span><span class="nv">provider</span><span class="p">:</span> <span class="n">serviceProvider</span><span class="p">)</span>
+<span class="n">window</span><span class="o">.</span><span class="n">rootViewController</span> <span class="o">=</span> <span class="kt">FirstViewController</span><span class="p">(</span><span class="nv">reactor</span><span class="p">:</span> <span class="n">firstViewReactor</span><span class="p">)</span>
+</code></pre></li>
+</ul>
+<a href='#examples' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h2 id='examples'>Examples</h2>
+
+<ul>
+<li><a href="https://github.com/devxoul/RxTodo">RxTodo</a>: iOS Todo Application using ReactorKit</li>
+<li><a href="https://github.com/devxoul/Cleverbot">Cleverbot</a>: iOS Messaging Application using Cleverbot and ReactorKit</li>
+<li><a href="https://github.com/devxoul/Drrrible">Drrrible</a>: Dribbble for iOS using ReactorKit</li>
+</ul>
+<a href='#dependencies' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h2 id='dependencies'>Dependencies</h2>
+
+<ul>
+<li><a href="https://github.com/ReactiveX/RxSwift">RxSwift</a> &gt;= 3.0</li>
+</ul>
+<a href='#requirements' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h2 id='requirements'>Requirements</h2>
+
+<ul>
+<li>Swift 3</li>
+<li>iOS 8</li>
+<li>macOS 10.11</li>
+<li>tvOS 9.0</li>
+<li>watchOS 2.0</li>
+</ul>
+<a href='#installation' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h2 id='installation'>Installation</h2>
+
+<ul>
+<li><p><strong>Using <a href="https://cocoapods.org">CocoaPods</a></strong>:</p>
+<pre class="highlight ruby"><code><span class="n">pod</span> <span class="s1">'ReactorKit'</span>
+</code></pre></li>
+<li><p><strong>Using <a href="https://github.com/Carthage/Carthage">Carthage</a></strong>:</p>
+<pre class="highlight plaintext"><code>github "devxoul/ReactorKit" ~&gt; 0.2
+</code></pre></li>
+</ul>
+<a href='#contribution' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h2 id='contribution'>Contribution</h2>
+
+<p>Any discussions and pull requests are welcomed 💖 </p>
+
+<p>To contribute code, use <code>$ swift generate-xcodeproj</code> to generate Xcode project for development.</p>
+<a href='#changelog' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h2 id='changelog'>Changelog</h2>
+
+<ul>
+<li>2017-04-18
+
+<ul>
+<li>Change the repository name to ReactorKit.</li>
+</ul></li>
+<li>2017-03-17
+
+<ul>
+<li>Change the architecture name from RxMVVM to The Reactive Architecture.</li>
+<li>Every ViewModels are renamed to ViewReactors.</li>
+</ul></li>
+</ul>
+<a href='#license' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h2 id='license'>License</h2>
+
+<p>ReactorKit is under MIT license. See the <a href="LICENSE">LICENSE</a> for more info.</p>
+
+          </section>
+        </section>
+        <section id="footer">
+          <p>&copy; 2017 <a class="link" href="https://xoul.kr" target="_blank" rel="external">Suyeol Jeon</a>. All rights reserved. (Last updated: 2017-04-22)</p>
+          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.7.5</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
+        </section>
+      </article>
+    </div>
+  </body>
+</div>
+</html>
