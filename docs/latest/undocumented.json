@@ -37,28 +37,28 @@
     },
     {
       "file": "/Users/xoul/workspace/ReactorKit/Sources/Reactor.swift",
-      "line": 71,
+      "line": 65,
       "symbol": "Reactor.action",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/xoul/workspace/ReactorKit/Sources/Reactor.swift",
-      "line": 75,
+      "line": 70,
       "symbol": "Reactor.currentState",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/xoul/workspace/ReactorKit/Sources/Reactor.swift",
-      "line": 80,
+      "line": 75,
       "symbol": "Reactor.state",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/xoul/workspace/ReactorKit/Sources/Reactor.swift",
-      "line": 84,
+      "line": 79,
       "symbol": "Reactor.createStateStream()",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
