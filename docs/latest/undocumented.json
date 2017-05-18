@@ -37,7 +37,7 @@
     },
     {
       "file": "/Users/xoul/workspace/ReactorKit/Sources/Reactor.swift",
-      "line": 65,
+      "line": 66,
       "symbol": "Reactor.action",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
@@ -58,7 +58,7 @@
     },
     {
       "file": "/Users/xoul/workspace/ReactorKit/Sources/Reactor.swift",
-      "line": 79,
+      "line": 84,
       "symbol": "Reactor.createStateStream()",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"

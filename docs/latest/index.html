@@ -13,7 +13,7 @@
     <a title="ReactorKit  Reference"></a>
     <header>
       <div class="content-wrapper">
-        <p><a href="index.html">ReactorKit Docs</a> (53% documented)</p>
+        <p><a href="index.html">ReactorKit Docs</a> (57% documented)</p>
         <p class="header-right"><a href="https://github.com/ReactorKit/ReactorKit"><img src="img/gh.png"/>View on GitHub</a></p>
         <p class="header-right"><a href="dash-feed://http%3A%2F%2Freactorkit%2Eio%2Fdocsets%2FReactorKit%2Exml"><img src="img/dash.png"/>Install in Dash</a></p>
       </div>
@@ -28,6 +28,14 @@
     <div class="content-wrapper">
       <nav class="sidebar">
         <ul class="nav-groups">
+          <li class="nav-group-name">
+            <a href="Classes.html">Classes</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="Classes/ActionSubject.html">ActionSubject</a>
+              </li>
+            </ul>
+          </li>
           <li class="nav-group-name">
             <a href="Protocols.html">Protocols</a>
             <ul class="nav-group-tasks">
@@ -94,7 +102,6 @@
 
 <ul>
 <li><a href="#service">Service</a></li>
-<li><a href="#serviceprovider">ServiceProvider</a></li>
 </ul></li>
 <li><a href="#conventions">Conventions</a></li>
 <li><a href="#examples">Examples</a></li>
@@ -235,16 +242,6 @@
 
 <p>ReactorKit has a special layer named <em>Service</em>. A service layer does the actual business logic. A reactor is a middle layer between a view and a service which manages event streams. When a reactor receives an user action from a view, the reactor calls the service logic. The service makes a network request and sends the response back to the reactor. Then the reactor create a mutation stream with the service response.</p>
 
-<p>Use this snippet for base service class:</p>
-<pre class="highlight swift"><code><span class="kd">class</span> <span class="kt">Service</span> <span class="p">{</span>
-  <span class="k">unowned</span> <span class="k">let</span> <span class="nv">provider</span><span class="p">:</span> <span class="kt">ServiceProviderType</span>
-
-  <span class="nf">init</span><span class="p">(</span><span class="nv">provider</span><span class="p">:</span> <span class="kt">ServiceProviderType</span><span class="p">)</span> <span class="p">{</span>
-    <span class="k">self</span><span class="o">.</span><span class="n">provider</span> <span class="o">=</span> <span class="n">provider</span>
-  <span class="p">}</span>
-<span class="p">}</span>
-</code></pre>
-
 <p>Here is an example of service:</p>
 <pre class="highlight swift"><code><span class="kd">protocol</span> <span class="kt">UserServiceType</span> <span class="p">{</span>
   <span class="kd">func</span> <span class="nf">user</span><span class="p">(</span><span class="nv">id</span><span class="p">:</span> <span class="kt">Int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Observable</span><span class="o">&lt;</span><span class="kt">User</span><span class="o">&gt;</span>
@@ -259,21 +256,6 @@
   <span class="kd">func</span> <span class="nf">follow</span><span class="p">(</span><span class="nv">id</span><span class="p">:</span> <span class="kt">Int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Observable</span><span class="o">&lt;</span><span class="kt">Void</span><span class="o">&gt;</span> <span class="p">{</span>
     <span class="k">return</span> <span class="nf">bar</span><span class="p">()</span>
   <span class="p">}</span>
-<span class="p">}</span>
-</code></pre>
-<a href='#serviceprovider' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h3 id='serviceprovider'>ServiceProvider</h3>
-
-<p>A single reactor can communicate with many services. <em>ServiceProvider</em> provides the references of each services to the reactor. The service provider is created once in the whole application life cycle and passed to the first reactor. The first reactor should pass the same reference of the service provider instance to a child reactor.</p>
-
-<p>This is an example service provider:</p>
-<pre class="highlight swift"><code><span class="kd">protocol</span> <span class="kt">ServiceProviderType</span><span class="p">:</span> <span class="kd">class</span> <span class="p">{</span>
-  <span class="k">var</span> <span class="nv">userDefaultsService</span><span class="p">:</span> <span class="kt">UserDefaultsServiceType</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span>
-  <span class="k">var</span> <span class="nv">userService</span><span class="p">:</span> <span class="kt">UserServiceType</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span>
-<span class="p">}</span>
-
-<span class="kd">final</span> <span class="kd">class</span> <span class="kt">ServiceProvider</span><span class="p">:</span> <span class="kt">ServiceProviderType</span> <span class="p">{</span>
-  <span class="kd">lazy</span> <span class="k">var</span> <span class="nv">userDefaultsService</span><span class="p">:</span> <span class="kt">UserDefaultsServiceType</span> <span class="o">=</span> <span class="kt">UserDefaultsService</span><span class="p">(</span><span class="nv">provider</span><span class="p">:</span> <span class="k">self</span><span class="p">)</span>
-  <span class="kd">lazy</span> <span class="k">var</span> <span class="nv">userService</span><span class="p">:</span> <span class="kt">UserServiceType</span> <span class="o">=</span> <span class="kt">UserService</span><span class="p">(</span><span class="nv">provider</span><span class="p">:</span> <span class="k">self</span><span class="p">)</span>
 <span class="p">}</span>
 </code></pre>
 <a href='#conventions' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h2 id='conventions'>Conventions</h2>
@@ -309,9 +291,11 @@
 <a href='#examples' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h2 id='examples'>Examples</h2>
 
 <ul>
+<li><a href="https://github.com/ReactorKit/ReactorKit/tree/master/Examples/Counter">Counter</a>: The most simple and basic example of ReactorKit</li>
+<li><a href="https://github.com/ReactorKit/ReactorKit/tree/master/Examples/GitHubSearch">GitHub Search</a>: A simple application which provides GitHub repository search</li>
 <li><a href="https://github.com/devxoul/RxTodo">RxTodo</a>: iOS Todo Application using ReactorKit</li>
 <li><a href="https://github.com/devxoul/Cleverbot">Cleverbot</a>: iOS Messaging Application using Cleverbot and ReactorKit</li>
-<li><a href="https://github.com/devxoul/Drrrible">Drrrible</a>: Dribbble for iOS using ReactorKit</li>
+<li><a href="https://github.com/devxoul/Drrrible">Drrrible</a>: Dribbble for iOS using ReactorKit (<a href="https://itunes.apple.com/us/app/drrrible/id1229592223?mt=8">App Store</a>)</li>
 </ul>
 <a href='#dependencies' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h2 id='dependencies'>Dependencies</h2>
 
@@ -334,7 +318,7 @@
 <pre class="highlight ruby"><code><span class="n">pod</span> <span class="s1">'ReactorKit'</span>
 </code></pre></li>
 <li><p><strong>Using <a href="https://github.com/Carthage/Carthage">Carthage</a></strong>:</p>
-<pre class="highlight plaintext"><code>github "ReactorKit/ReactorKit" ~&gt; 0.3
+<pre class="highlight plaintext"><code>github "ReactorKit/ReactorKit"
 </code></pre></li>
 </ul>
 <a href='#contribution' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h2 id='contribution'>Contribution</h2>
@@ -374,7 +358,7 @@
           </section>
         </section>
         <section id="footer">
-          <p>&copy; 2017 <a class="link" href="https://xoul.kr" target="_blank" rel="external">Suyeol Jeon</a>. All rights reserved. (Last updated: 2017-05-01)</p>
+          <p>&copy; 2017 <a class="link" href="https://xoul.kr" target="_blank" rel="external">Suyeol Jeon</a>. All rights reserved. (Last updated: 2017-05-18)</p>
           <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.7.5</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
         </section>
       </article>
