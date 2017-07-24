@@ -13,7 +13,7 @@
     <a title="ReactorKit  Reference"></a>
     <header>
       <div class="content-wrapper">
-        <p><a href="index.html">ReactorKit Docs</a> (57% documented)</p>
+        <p><a href="index.html">ReactorKit Docs</a> (62% documented)</p>
         <p class="header-right"><a href="https://github.com/ReactorKit/ReactorKit"><img src="img/gh.png"/>View on GitHub</a></p>
         <p class="header-right"><a href="dash-feed://http%3A%2F%2Freactorkit%2Eio%2Fdocsets%2FReactorKit%2Exml"><img src="img/dash.png"/>Install in Dash</a></p>
       </div>
@@ -34,16 +34,25 @@
               <li class="nav-group-task">
                 <a href="Classes/ActionSubject.html">ActionSubject</a>
               </li>
+              <li class="nav-group-task">
+                <a href="Classes/Stub.html">Stub</a>
+              </li>
             </ul>
           </li>
           <li class="nav-group-name">
             <a href="Protocols.html">Protocols</a>
             <ul class="nav-group-tasks">
               <li class="nav-group-task">
+                <a href="Protocols.html#/s:P10ReactorKit21AssociatedObjectStore">AssociatedObjectStore</a>
+              </li>
+              <li class="nav-group-task">
                 <a href="Protocols/Reactor.html">Reactor</a>
               </li>
               <li class="nav-group-task">
                 <a href="Protocols/View.html">View</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Protocols/_ObjcCompatibleView.html">_ObjcCompatibleView</a>
               </li>
             </ul>
           </li>
@@ -85,9 +94,9 @@
   </a>
 </p>
 
-<p>ReactorKit is a framework for reactive and unidirectional Swift application architecture. This repository introduces the basic concept of ReactorKit and describes how to build an application using ReactorKit.</p>
+<p>ReactorKit is a framework for a reactive and unidirectional Swift application architecture. This repository introduces the basic concept of ReactorKit and describes how to build an application using ReactorKit.</p>
 
-<p>You may want to see <a href="#examples">Examples</a> section first if you&rsquo;d like to see the actual code. Visit <a href="http://reactorkit.io/docs/latest/">API Reference</a> for code-level documentation.</p>
+<p>You may want to see the <a href="#examples">Examples</a> section first if you&rsquo;d like to see the actual code. Visit the <a href="http://reactorkit.io/docs/latest/">API Reference</a> for code-level documentation.</p>
 <a href='#table-of-contents' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h2 id='table-of-contents'>Table of Contents</h2>
 
 <ul>
@@ -102,6 +111,9 @@
 
 <ul>
 <li><a href="#service">Service</a></li>
+<li><a href="#global-states">Global States</a></li>
+<li><a href="#view-communication">View Communication</a></li>
+<li><a href="#testing">Testing</a></li>
 </ul></li>
 <li><a href="#conventions">Conventions</a></li>
 <li><a href="#examples">Examples</a></li>
@@ -115,7 +127,7 @@
 </ul>
 <a href='#basic-concept' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h2 id='basic-concept'>Basic Concept</h2>
 
-<p>ReactorKit is a combination of <a href="https://facebook.github.io/flux/">Flux</a> and <a href="https://en.wikipedia.org/wiki/Reactive_programming">Reactive Programming</a>. The user actions and the view states are delivered to each layer via observable streams. These streams are unidirectional so the view can only emit actions and the reactor can only emit states.</p>
+<p>ReactorKit is a combination of <a href="https://facebook.github.io/flux/">Flux</a> and <a href="https://en.wikipedia.org/wiki/Reactive_programming">Reactive Programming</a>. The user actions and the view states are delivered to each layer via observable streams. These streams are unidirectional: the view can only emit actions and the reactor can only emit states.</p>
 
 <p align="center">
   <img alt="flow" src="https://cloud.githubusercontent.com/assets/931655/25073432/a91c1688-2321-11e7-8f04-bf91031a09dd.png" width="600">
@@ -123,15 +135,15 @@
 <a href='#design-goal' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h3 id='design-goal'>Design Goal</h3>
 
 <ul>
-<li><strong>Testability</strong>: The first purpose of ReactorKit is to separate the business logic from a view. This can make the code testable. A reactor doesn&rsquo;t have any dependency to a view. Just test reactors.</li>
-<li><strong>Start Small</strong>: ReactorKit doesn&rsquo;t require the whole application to follow a single architecture. ReactorKit can be adopted partically to a specific view. You don&rsquo;t need to rewrite everything to use ReactorKit on your existing project.</li>
-<li><strong>Less Typing</strong>: ReactorKit focuses on avoiding complicated code for simple thing. ReactorKit requires less code compared to other architectures. Start simple and scale them up.</li>
+<li><strong>Testability</strong>: The first purpose of ReactorKit is to separate the business logic from a view. This can make the code testable. A reactor doesn&rsquo;t have any dependency to a view. Just test reactors and test view bindings. See <a href="#testing">Testing</a> section for details.</li>
+<li><strong>Start Small</strong>: ReactorKit doesn&rsquo;t require the whole application to follow a single architecture. ReactorKit can be adopted partially, for one or more specific views. You don&rsquo;t need to rewrite everything to use ReactorKit on your existing project.</li>
+<li><strong>Less Typing</strong>: ReactorKit focuses on avoiding complicated code for a simple thing. ReactorKit requires less code compared to other architectures. Start simple and scale up.</li>
 </ul>
 <a href='#view' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h3 id='view'>View</h3>
 
-<p><em>View</em> displays data. A view controller and a cell are treated as a view. The view binds user-inputs to the action stream and binds the view states to each UI components. There&rsquo;s no business logic in a view layer. A view just defines how to map the action stream and the state stream.</p>
+<p>A <em>View</em> displays data. A view controller and a cell are treated as a view. The view binds user inputs to the action stream and binds the view states to each UI component. There&rsquo;s no business logic in a view layer. A view just defines how to map the action stream and the state stream.</p>
 
-<p>To define a view, just conform a protocol named <code>View</code> to an existing class. Then your class will have a property named <code>reactor</code> automatically. This property is typically set outside of the view.</p>
+<p>To define a view, just have an existing class conform a protocol named <code>View</code>. Then your class will have a property named <code>reactor</code> automatically. This property is typically set outside of the view.</p>
 <pre class="highlight swift"><code><span class="kd">class</span> <span class="kt">ProfileViewController</span><span class="p">:</span> <span class="kt">UIViewController</span><span class="p">,</span> <span class="kt">View</span> <span class="p">{</span>
   <span class="k">var</span> <span class="nv">disposeBag</span> <span class="o">=</span> <span class="kt">DisposeBag</span><span class="p">()</span>
 <span class="p">}</span>
@@ -143,33 +155,33 @@
 <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">bind</span><span class="p">(</span><span class="nv">reactor</span><span class="p">:</span> <span class="kt">ProfileViewReactor</span><span class="p">)</span> <span class="p">{</span>
   <span class="c1">// action (View -&gt; Reactor)</span>
   <span class="n">refreshButton</span><span class="o">.</span><span class="n">rx</span><span class="o">.</span><span class="n">tap</span><span class="o">.</span><span class="n">map</span> <span class="p">{</span> <span class="kt">Reactor</span><span class="o">.</span><span class="kt">Action</span><span class="o">.</span><span class="n">refresh</span> <span class="p">}</span>
-    <span class="o">.</span><span class="nf">bindTo</span><span class="p">(</span><span class="n">reactor</span><span class="o">.</span><span class="n">action</span><span class="p">)</span>
-    <span class="o">.</span><span class="nf">addDisposableTo</span><span class="p">(</span><span class="k">self</span><span class="o">.</span><span class="n">disposeBag</span><span class="p">)</span>
+    <span class="o">.</span><span class="nf">bind</span><span class="p">(</span><span class="nv">to</span><span class="p">:</span> <span class="n">reactor</span><span class="o">.</span><span class="n">action</span><span class="p">)</span>
+    <span class="o">.</span><span class="nf">disposed</span><span class="p">(</span><span class="nv">by</span><span class="p">:</span> <span class="k">self</span><span class="o">.</span><span class="n">disposeBag</span><span class="p">)</span>
 
   <span class="c1">// state (Reactor -&gt; View)</span>
   <span class="n">reactor</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">map</span> <span class="p">{</span> <span class="nv">$0</span><span class="o">.</span><span class="n">isFollowing</span> <span class="p">}</span>
-    <span class="o">.</span><span class="nf">bindTo</span><span class="p">(</span><span class="n">followButton</span><span class="o">.</span><span class="n">rx</span><span class="o">.</span><span class="n">isSelected</span><span class="p">)</span>
-    <span class="o">.</span><span class="nf">addDisposableTo</span><span class="p">(</span><span class="k">self</span><span class="o">.</span><span class="n">disposeBag</span><span class="p">)</span>
+    <span class="o">.</span><span class="nf">bind</span><span class="p">(</span><span class="nv">to</span><span class="p">:</span> <span class="n">followButton</span><span class="o">.</span><span class="n">rx</span><span class="o">.</span><span class="n">isSelected</span><span class="p">)</span>
+    <span class="o">.</span><span class="nf">disposed</span><span class="p">(</span><span class="nv">by</span><span class="p">:</span> <span class="k">self</span><span class="o">.</span><span class="n">disposeBag</span><span class="p">)</span>
 <span class="p">}</span>
 </code></pre>
 <a href='#reactor' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h3 id='reactor'>Reactor</h3>
 
-<p><em>Reactor</em> is an UI independent layer which manages the state of a view. The foremost role of a reactor is to separate control flow from a view. Every view has its corresponding reactor and delegates every logical things to its reactor. A reactor has no dependency of a view so it can be easily tested.</p>
+<p>A <em>Reactor</em> is an UI-independent layer which manages the state of a view. The foremost role of a reactor is to separate control flow from a view. Every view has its corresponding reactor and delegates all logic to its reactor. A reactor has no dependency to a view, so it can be easily tested.</p>
 
-<p>Conform a protocol named <code>Reactor</code> to define a reactor. This protocol requires three types: <code>Action</code>, <code>Mutation</code> and <code>State</code>. It also requies a property named <code>initialState</code>.</p>
+<p>Conform to the <code>Reactor</code> protocol to define a reactor. This protocol requires three types to be defined: <code>Action</code>, <code>Mutation</code> and <code>State</code>. It also requires a property named <code>initialState</code>.</p>
 <pre class="highlight swift"><code><span class="kd">class</span> <span class="kt">ProfileViewReactor</span><span class="p">:</span> <span class="kt">Reactor</span> <span class="p">{</span>
-  <span class="c1">// about what user did</span>
+  <span class="c1">// represent user actions</span>
   <span class="kd">enum</span> <span class="kt">Action</span> <span class="p">{</span>
     <span class="k">case</span> <span class="nf">refreshFollowingStatus</span><span class="p">(</span><span class="kt">Int</span><span class="p">)</span>
     <span class="k">case</span> <span class="nf">follow</span><span class="p">(</span><span class="kt">Int</span><span class="p">)</span>
   <span class="p">}</span>
 
-  <span class="c1">// about how to manipulate the state</span>
+  <span class="c1">// represent state changes</span>
   <span class="kd">enum</span> <span class="kt">Mutation</span> <span class="p">{</span>
     <span class="k">case</span> <span class="nf">setFollowing</span><span class="p">(</span><span class="kt">Bool</span><span class="p">)</span>
   <span class="p">}</span>
 
-  <span class="c1">// about current view state</span>
+  <span class="c1">// represents the current view state</span>
   <span class="kd">struct</span> <span class="kt">State</span> <span class="p">{</span>
     <span class="k">var</span> <span class="nv">isFollowing</span><span class="p">:</span> <span class="kt">Bool</span> <span class="o">=</span> <span class="kc">false</span>
   <span class="p">}</span>
@@ -178,7 +190,7 @@
 <span class="p">}</span>
 </code></pre>
 
-<p><code>Action</code> represents an user interaction and <code>State</code> represents a view state. <code>Mutation</code> is a bridge between <code>Action</code> and <code>State</code>. A reactor converts the action stream to the state stream in two steps: <code>mutate()</code> and <code>reduce()</code>.</p>
+<p>An <code>Action</code> represents a user interaction and <code>State</code> represents a view state. <code>Mutation</code> is a bridge between <code>Action</code> and <code>State</code>. A reactor converts the action stream to the state stream in two steps: <code>mutate()</code> and <code>reduce()</code>.</p>
 
 <p align="center">
   <img alt="flow-reactor" src="https://cloud.githubusercontent.com/assets/931655/25098066/2de21a28-23e2-11e7-8a41-d33d199dd951.png" width="800">
@@ -189,7 +201,7 @@
 <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">mutate</span><span class="p">(</span><span class="nv">action</span><span class="p">:</span> <span class="kt">Action</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Observable</span><span class="o">&lt;</span><span class="kt">Mutation</span><span class="o">&gt;</span>
 </code></pre>
 
-<p>Every side effect such as async operation or API call are performed in this method.</p>
+<p>Every side effect, such as an async operation or API call, is performed in this method.</p>
 <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">mutate</span><span class="p">(</span><span class="nv">action</span><span class="p">:</span> <span class="kt">Action</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Observable</span><span class="o">&lt;</span><span class="kt">Mutation</span><span class="o">&gt;</span> <span class="p">{</span>
   <span class="k">switch</span> <span class="n">action</span> <span class="p">{</span>
   <span class="k">case</span> <span class="kd">let</span> <span class="o">.</span><span class="nf">refreshFollowingStatus</span><span class="p">(</span><span class="n">userID</span><span class="p">):</span> <span class="c1">// receive an action</span>
@@ -208,31 +220,31 @@
 </code></pre>
 <a href='#code-reduce-code' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h4 id='code-reduce-code'><code>reduce()</code></h4>
 
-<p><code>reduce()</code> generates a new <code>State</code> from an old <code>State</code> and a <code>Mutation</code>. </p>
+<p><code>reduce()</code> generates a new <code>State</code> from a previous <code>State</code> and a <code>Mutation</code>. </p>
 <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">reduce</span><span class="p">(</span><span class="nv">state</span><span class="p">:</span> <span class="kt">State</span><span class="p">,</span> <span class="nv">mutation</span><span class="p">:</span> <span class="kt">Mutation</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">State</span>
 </code></pre>
 
 <p>This method is a pure function. It should just return a new <code>State</code> synchronously. Don&rsquo;t perform any side effects in this function.</p>
 <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">reduce</span><span class="p">(</span><span class="nv">state</span><span class="p">:</span> <span class="kt">State</span><span class="p">,</span> <span class="nv">mutation</span><span class="p">:</span> <span class="kt">Mutation</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">State</span> <span class="p">{</span>
-  <span class="k">var</span> <span class="nv">state</span> <span class="o">=</span> <span class="n">state</span> <span class="c1">// create a copy of old state</span>
+  <span class="k">var</span> <span class="nv">state</span> <span class="o">=</span> <span class="n">state</span> <span class="c1">// create a copy of the old state</span>
   <span class="k">switch</span> <span class="n">mutation</span> <span class="p">{</span>
   <span class="k">case</span> <span class="kd">let</span> <span class="o">.</span><span class="nf">setFollowing</span><span class="p">(</span><span class="n">isFollowing</span><span class="p">):</span>
-    <span class="n">state</span><span class="o">.</span><span class="n">isFollowing</span> <span class="o">=</span> <span class="n">isFollowing</span> <span class="c1">// manipulate a new state</span>
-    <span class="k">return</span> <span class="n">state</span> <span class="c1">// return a new state</span>
+    <span class="n">state</span><span class="o">.</span><span class="n">isFollowing</span> <span class="o">=</span> <span class="n">isFollowing</span> <span class="c1">// manipulate the state, creating a new state</span>
+    <span class="k">return</span> <span class="n">state</span> <span class="c1">// return the new state</span>
   <span class="p">}</span>
 <span class="p">}</span>
 </code></pre>
 <a href='#code-transform-code' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h4 id='code-transform-code'><code>transform()</code></h4>
 
-<p><code>transform()</code> transforms each streams. There are three <code>transform()</code> functions:</p>
+<p><code>transform()</code> transforms each stream. There are three <code>transform()</code> functions:</p>
 <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">transform</span><span class="p">(</span><span class="nv">action</span><span class="p">:</span> <span class="kt">Observable</span><span class="o">&lt;</span><span class="kt">Action</span><span class="o">&gt;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Observable</span><span class="o">&lt;</span><span class="kt">Action</span><span class="o">&gt;</span>
 <span class="kd">func</span> <span class="nf">transform</span><span class="p">(</span><span class="nv">mutation</span><span class="p">:</span> <span class="kt">Observable</span><span class="o">&lt;</span><span class="kt">Mutation</span><span class="o">&gt;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Observable</span><span class="o">&lt;</span><span class="kt">Mutation</span><span class="o">&gt;</span>
 <span class="kd">func</span> <span class="nf">transform</span><span class="p">(</span><span class="nv">state</span><span class="p">:</span> <span class="kt">Observable</span><span class="o">&lt;</span><span class="kt">State</span><span class="o">&gt;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Observable</span><span class="o">&lt;</span><span class="kt">State</span><span class="o">&gt;</span>
 </code></pre>
 
-<p>Implement these methods to transform and combine with other observable streams. For example, <code>transform(mutation:)</code> is the best place for combining a global event stream to a mutation stream.</p>
+<p>Implement these methods to transform and combine with other observable streams. For example, <code>transform(mutation:)</code> is the best place for combining a global event stream to a mutation stream. See the <a href="#global-states">Global States</a> section for details.</p>
 
-<p>These methods can be also used for debugging purpose:</p>
+<p>These methods can be also used for debugging purposes:</p>
 <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">transform</span><span class="p">(</span><span class="nv">action</span><span class="p">:</span> <span class="kt">Observable</span><span class="o">&lt;</span><span class="kt">Action</span><span class="o">&gt;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Observable</span><span class="o">&lt;</span><span class="kt">Action</span><span class="o">&gt;</span> <span class="p">{</span>
   <span class="k">return</span> <span class="n">action</span><span class="o">.</span><span class="nf">debug</span><span class="p">(</span><span class="s">"action"</span><span class="p">)</span> <span class="c1">// Use RxSwift's debug() operator</span>
 <span class="p">}</span>
@@ -258,17 +270,142 @@
   <span class="p">}</span>
 <span class="p">}</span>
 </code></pre>
+<a href='#global-states' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h3 id='global-states'>Global States</h3>
+
+<p>Unlike Redux, ReactorKit doesn&rsquo;t define a global app state. It means that you can use anything to manage a global state. You can use a <code>Variable</code>, a <code>PublishSubject</code> or even a reactor. ReactorKit doesn&rsquo;t force to have a global state so you can use ReactorKit in a specific feature in your application.</p>
+
+<p>There is no global state in the <strong>Action → Mutation → State</strong> flow. You should use <code>transform(mutation:)</code> to transform the global state to a mutation. Let&rsquo;s assume that we have a global <code>Variable</code> which stores the current authenticated user. If you&rsquo;d like to emit a <code>Mutation.setUser(User?)</code> when the <code>currentUser</code> is changed, you can do as following:</p>
+<pre class="highlight swift"><code><span class="k">var</span> <span class="nv">currentUser</span><span class="p">:</span> <span class="kt">Variable</span><span class="o">&lt;</span><span class="kt">User</span><span class="o">&gt;</span> <span class="c1">// global state</span>
+
+<span class="kd">func</span> <span class="nf">transform</span><span class="p">(</span><span class="nv">mutation</span><span class="p">:</span> <span class="kt">Observable</span><span class="o">&lt;</span><span class="kt">Mutation</span><span class="o">&gt;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Observable</span><span class="o">&lt;</span><span class="kt">Mutation</span><span class="o">&gt;</span> <span class="p">{</span>
+  <span class="k">return</span> <span class="kt">Observable</span><span class="o">.</span><span class="nf">merge</span><span class="p">(</span><span class="n">mutation</span><span class="p">,</span> <span class="n">currentUser</span><span class="o">.</span><span class="nf">map</span><span class="p">(</span><span class="kt">Mutation</span><span class="o">.</span><span class="n">setUser</span><span class="p">))</span>
+<span class="p">}</span>
+</code></pre>
+
+<p>Then the mutation will be emitted each time the view sends an action to a reactor and the <code>currentUser</code> is changed.</p>
+<a href='#view-communication' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h3 id='view-communication'>View Communication</h3>
+
+<p>You must be familiar with callback closures or delegate patterns for communicating between multiple views. ReactorKit recommends you to use <a href="https://github.com/ReactiveX/RxSwift/blob/master/RxSwift/Reactive.swift">reactive extensions</a> for it. The most common example of <code>ControlEvent</code> is <code>UIButton.rx.tap</code>. The key concept is to treat your custom views as UIButton or UILabel.</p>
+
+<p align="center">
+  <img alt="view-view" src="https://user-images.githubusercontent.com/931655/27789114-393e2eea-6026-11e7-9b32-bae314e672ee.png" width="600">
+</p>
+
+<p>Let&rsquo;s assume that we have a <code>ChatViewController</code> which displays messages. The <code>ChatViewController</code> owns a <code>MessageInputView</code>. When an user taps the send button on the <code>MessageInputView</code>, the text will be sent to the <code>ChatViewController</code> and <code>ChatViewController</code> will bind in to the reactor&rsquo;s action. This is an example <code>MessageInputView</code>&lsquo;s reactive extension:</p>
+<pre class="highlight swift"><code><span class="kd">extension</span> <span class="kt">Reactive</span> <span class="k">where</span> <span class="kt">Base</span><span class="p">:</span> <span class="kt">MessageInputView</span> <span class="p">{</span>
+  <span class="k">var</span> <span class="nv">sendButtonTap</span><span class="p">:</span> <span class="kt">ControlEvent</span><span class="o">&lt;</span><span class="kt">String</span><span class="o">&gt;</span> <span class="p">{</span>
+    <span class="k">let</span> <span class="nv">source</span> <span class="o">=</span> <span class="n">base</span><span class="o">.</span><span class="n">sendButton</span><span class="o">.</span><span class="n">rx</span><span class="o">.</span><span class="n">tap</span><span class="o">.</span><span class="nf">withLatestFrom</span><span class="p">(</span><span class="o">...</span><span class="p">)</span>
+    <span class="k">return</span> <span class="kt">ControlEvent</span><span class="p">(</span><span class="nv">events</span><span class="p">:</span> <span class="n">source</span><span class="p">)</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</code></pre>
+
+<p>You can use that extension in the <code>ChatViewController</code>. For example:</p>
+<pre class="highlight swift"><code><span class="n">messageInputView</span><span class="o">.</span><span class="n">rx</span><span class="o">.</span><span class="n">sendButtonTap</span>
+  <span class="o">.</span><span class="nf">map</span><span class="p">(</span><span class="kt">Reactor</span><span class="o">.</span><span class="kt">Action</span><span class="o">.</span><span class="n">send</span><span class="p">)</span>
+  <span class="o">.</span><span class="nf">bind</span><span class="p">(</span><span class="nv">to</span><span class="p">:</span> <span class="n">reactor</span><span class="o">.</span><span class="n">action</span><span class="p">)</span>
+</code></pre>
+<a href='#testing' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h3 id='testing'>Testing</h3>
+
+<p>ReactorKit has a built-in functionality for a testing. You&rsquo;ll be able to easily test both a view and a reactor with a following instruction.</p>
+<a href='#what-to-test' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h4 id='what-to-test'>What to test</h4>
+
+<p>First of all, you have to decide what to test. There are two things to test: a view and a reactor.</p>
+
+<ul>
+<li>View
+
+<ul>
+<li>Action: is a proper action sent to a reactor with a given user interaction?</li>
+<li>State: is a view property set properly with a following state?</li>
+</ul></li>
+<li>Reactor
+
+<ul>
+<li>State: is a state changed properly with an action?</li>
+</ul></li>
+</ul>
+<a href='#view-testing' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h4 id='view-testing'>View testing</h4>
+
+<p>A view can be tested with a <em>stub</em> reactor. A reactor has a property <code>stub</code> which can log actions and force change states. If a reactor&rsquo;s stub is enabled, both <code>mutate()</code> and <code>reduce()</code> are not executed. A stub has these properties:</p>
+<pre class="highlight swift"><code><span class="k">var</span> <span class="nv">isEnabled</span><span class="p">:</span> <span class="kt">Bool</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span>
+<span class="k">var</span> <span class="nv">state</span><span class="p">:</span> <span class="kt">Variable</span><span class="o">&lt;</span><span class="kt">Reactor</span><span class="o">.</span><span class="kt">State</span><span class="o">&gt;</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span>
+<span class="k">var</span> <span class="nv">action</span><span class="p">:</span> <span class="kt">ActionSubject</span><span class="o">&lt;</span><span class="kt">Reactor</span><span class="o">.</span><span class="kt">Action</span><span class="o">&gt;</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span>
+<span class="k">var</span> <span class="nv">actions</span><span class="p">:</span> <span class="p">[</span><span class="kt">Reactor</span><span class="o">.</span><span class="kt">Action</span><span class="p">]</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span> <span class="c1">// recorded actions</span>
+</code></pre>
+
+<p>Here are some example test cases:</p>
+<pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">testAction_refresh</span><span class="p">()</span> <span class="p">{</span>
+  <span class="c1">// 1. prepare a stub reactor</span>
+  <span class="k">let</span> <span class="nv">reactor</span> <span class="o">=</span> <span class="kt">MyReactor</span><span class="p">()</span>
+  <span class="n">reactor</span><span class="o">.</span><span class="n">stub</span><span class="o">.</span><span class="n">isEnabled</span> <span class="o">=</span> <span class="kc">true</span>
+
+  <span class="c1">// 2. prepare a view with a stub reactor</span>
+  <span class="k">let</span> <span class="nv">view</span> <span class="o">=</span> <span class="kt">MyView</span><span class="p">()</span>
+  <span class="n">view</span><span class="o">.</span><span class="n">reactor</span> <span class="o">=</span> <span class="n">reactor</span>
+
+  <span class="c1">// 3. send an user interaction programatically</span>
+  <span class="n">view</span><span class="o">.</span><span class="n">refreshControl</span><span class="o">.</span><span class="nf">sendActions</span><span class="p">(</span><span class="nv">for</span><span class="p">:</span> <span class="o">.</span><span class="n">valueChanged</span><span class="p">)</span>
+
+  <span class="c1">// 4. assert actions</span>
+  <span class="kt">XCTAssertEqual</span><span class="p">(</span><span class="n">reactor</span><span class="o">.</span><span class="n">stub</span><span class="o">.</span><span class="n">actions</span><span class="o">.</span><span class="n">last</span><span class="p">,</span> <span class="o">.</span><span class="n">refresh</span><span class="p">)</span>
+<span class="p">}</span>
+
+<span class="kd">func</span> <span class="nf">testState_isLoading</span><span class="p">()</span> <span class="p">{</span>
+  <span class="c1">// 1. prepare a stub reactor</span>
+  <span class="k">let</span> <span class="nv">reactor</span> <span class="o">=</span> <span class="kt">MyReactor</span><span class="p">()</span>
+  <span class="n">reactor</span><span class="o">.</span><span class="n">stub</span><span class="o">.</span><span class="n">isEnabled</span> <span class="o">=</span> <span class="kc">true</span>
+
+  <span class="c1">// 2. prepare a view with a stub reactor</span>
+  <span class="k">let</span> <span class="nv">view</span> <span class="o">=</span> <span class="kt">MyView</span><span class="p">()</span>
+  <span class="n">view</span><span class="o">.</span><span class="n">reactor</span> <span class="o">=</span> <span class="n">reactor</span>
+
+  <span class="c1">// 3. set a stub state</span>
+  <span class="n">reactor</span><span class="o">.</span><span class="n">stub</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">value</span> <span class="o">=</span> <span class="kt">MyReactor</span><span class="o">.</span><span class="kt">State</span><span class="p">(</span><span class="nv">isLoading</span><span class="p">:</span> <span class="kc">true</span><span class="p">)</span>
+
+  <span class="c1">// 4. assert view properties</span>
+  <span class="kt">XCTAssertEqual</span><span class="p">(</span><span class="n">view</span><span class="o">.</span><span class="n">activityIndicator</span><span class="o">.</span><span class="n">isAnimating</span><span class="p">,</span> <span class="kc">true</span><span class="p">)</span>
+<span class="p">}</span>
+</code></pre>
+<a href='#reactor-testing' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h4 id='reactor-testing'>Reactor testing</h4>
+
+<p>A reactor can be tested independently.</p>
+<pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">testIsBookmarked</span><span class="p">()</span> <span class="p">{</span>
+  <span class="k">let</span> <span class="nv">reactor</span> <span class="o">=</span> <span class="kt">MyReactor</span><span class="p">()</span>
+  <span class="n">reactor</span><span class="o">.</span><span class="n">action</span><span class="o">.</span><span class="nf">onNext</span><span class="p">(</span><span class="o">.</span><span class="n">toggleBookmarked</span><span class="p">)</span>
+  <span class="kt">XCTAssertEqual</span><span class="p">(</span><span class="n">reactor</span><span class="o">.</span><span class="n">currentState</span><span class="o">.</span><span class="n">isBookmarked</span><span class="p">,</span> <span class="kc">true</span><span class="p">)</span>
+  <span class="n">reactor</span><span class="o">.</span><span class="n">action</span><span class="o">.</span><span class="nf">onNext</span><span class="p">(</span><span class="o">.</span><span class="n">toggleBookmarked</span><span class="p">)</span>
+  <span class="kt">XCTAssertEqual</span><span class="p">(</span><span class="n">reactor</span><span class="o">.</span><span class="n">currentState</span><span class="o">.</span><span class="n">isBookmarked</span><span class="p">,</span> <span class="kc">false</span><span class="p">)</span>
+<span class="p">}</span>
+</code></pre>
+
+<p>Sometimes a state is changed more than one time for a single action. For example, a <code>.refresh</code> action sets <code>state.isLoading</code> to <code>true</code> at first and sets to <code>false</code> after the refreshing. In this case it&rsquo;s difficult to test <code>state.isLoading</code> with <code>currentState</code> so you might need to use <a href="https://github.com/ReactiveX/RxSwift">RxTest</a> or <a href="https://github.com/devxoul/RxExpect">RxExpect</a>. Here is an example test case using RxExpect:</p>
+<pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">testIsLoading</span><span class="p">()</span> <span class="p">{</span>
+  <span class="kt">RxExpect</span><span class="p">(</span><span class="s">"it should change isLoading"</span><span class="p">)</span> <span class="p">{</span> <span class="n">test</span> <span class="k">in</span>
+    <span class="k">let</span> <span class="nv">reactor</span> <span class="o">=</span> <span class="n">test</span><span class="o">.</span><span class="nf">retain</span><span class="p">(</span><span class="kt">MyReactor</span><span class="p">())</span>
+    <span class="n">test</span><span class="o">.</span><span class="nf">input</span><span class="p">(</span><span class="n">reactor</span><span class="o">.</span><span class="n">action</span><span class="p">,</span> <span class="p">[</span>
+      <span class="nf">next</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span> <span class="o">.</span><span class="n">refresh</span><span class="p">)</span> <span class="c1">// send .refresh at 100 scheduler time</span>
+    <span class="p">])</span>
+    <span class="n">test</span><span class="o">.</span><span class="nf">assert</span><span class="p">(</span><span class="n">reactor</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">map</span> <span class="p">{</span> <span class="nv">$0</span><span class="o">.</span><span class="n">isLoading</span> <span class="p">})</span>
+      <span class="o">.</span><span class="nf">since</span><span class="p">(</span><span class="mi">100</span><span class="p">)</span> <span class="c1">// values since 100 scheduler time</span>
+      <span class="o">.</span><span class="nf">assert</span><span class="p">([</span>
+        <span class="kc">true</span><span class="p">,</span>  <span class="c1">// just after .refresh</span>
+        <span class="kc">false</span><span class="p">,</span> <span class="c1">// after refreshing</span>
+      <span class="p">])</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</code></pre>
 <a href='#conventions' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h2 id='conventions'>Conventions</h2>
 
 <p>ReactorKit suggests some conventions to write clean and concise code.</p>
 
 <ul>
-<li><p>A reactor should have the ServiceProvider as a first argument of an initializer.</p>
-<pre class="highlight swift"><code><span class="kd">class</span> <span class="kt">MyViewReactor</span> <span class="p">{</span>
-  <span class="nf">init</span><span class="p">(</span><span class="nv">provider</span><span class="p">:</span> <span class="kt">ServiceProviderType</span><span class="p">)</span>
-<span class="p">}</span>
-</code></pre></li>
-<li><p>You must create a reactor outside of a view and pass it to the view&rsquo;s <code>reactor</code> property.</p>
+<li><p>You must create a reactor outside of the view and pass it to the view&rsquo;s <code>reactor</code> property.</p>
+
+<p><strong>Good</strong></p>
+<pre class="highlight swift"><code><span class="k">let</span> <span class="nv">view</span> <span class="o">=</span> <span class="kt">MyView</span><span class="p">()</span>
+<span class="n">view</span><span class="o">.</span><span class="n">reactor</span> <span class="o">=</span> <span class="kt">MyViewReactor</span><span class="p">(</span><span class="nv">provider</span><span class="p">:</span> <span class="n">provider</span><span class="p">)</span>
+</code></pre>
 
 <p><strong>Bad</strong></p>
 <pre class="highlight swift"><code><span class="kd">class</span> <span class="kt">MyView</span><span class="p">:</span> <span class="kt">UIView</span><span class="p">,</span> <span class="kt">View</span> <span class="p">{</span>
@@ -276,27 +413,17 @@
     <span class="k">self</span><span class="o">.</span><span class="n">reactor</span> <span class="o">=</span> <span class="kt">MyViewReactor</span><span class="p">()</span>
   <span class="p">}</span>
 <span class="p">}</span>
-</code></pre>
-
-<p><strong>Good</strong></p>
-<pre class="highlight swift"><code><span class="k">let</span> <span class="nv">view</span> <span class="o">=</span> <span class="kt">MyView</span><span class="p">()</span>
-<span class="n">view</span><span class="o">.</span><span class="n">reactor</span> <span class="o">=</span> <span class="kt">MyViewReactor</span><span class="p">(</span><span class="nv">provider</span><span class="p">:</span> <span class="n">provider</span><span class="p">)</span>
-</code></pre></li>
-<li><p>The ServiceProvider should be created once and passed to the first-most View.</p>
-<pre class="highlight swift"><code><span class="k">let</span> <span class="nv">serviceProvider</span> <span class="o">=</span> <span class="kt">ServiceProvider</span><span class="p">()</span>
-<span class="k">let</span> <span class="nv">firstViewReactor</span> <span class="o">=</span> <span class="kt">FirstViewReactor</span><span class="p">(</span><span class="nv">provider</span><span class="p">:</span> <span class="n">serviceProvider</span><span class="p">)</span>
-<span class="n">window</span><span class="o">.</span><span class="n">rootViewController</span> <span class="o">=</span> <span class="kt">FirstViewController</span><span class="p">(</span><span class="nv">reactor</span><span class="p">:</span> <span class="n">firstViewReactor</span><span class="p">)</span>
 </code></pre></li>
 </ul>
 <a href='#examples' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h2 id='examples'>Examples</h2>
 
 <ul>
 <li><a href="https://github.com/ReactorKit/ReactorKit/tree/master/Examples/Counter">Counter</a>: The most simple and basic example of ReactorKit</li>
-<li><a href="https://github.com/ReactorKit/ReactorKit/tree/master/Examples/GitHubSearch">GitHub Search</a>: A simple application which provides GitHub repository search</li>
+<li><a href="https://github.com/ReactorKit/ReactorKit/tree/master/Examples/GitHubSearch">GitHub Search</a>: A simple application which provides a GitHub repository search</li>
 <li><a href="https://github.com/devxoul/RxTodo">RxTodo</a>: iOS Todo Application using ReactorKit</li>
 <li><a href="https://github.com/devxoul/Cleverbot">Cleverbot</a>: iOS Messaging Application using Cleverbot and ReactorKit</li>
 <li><a href="https://github.com/devxoul/Drrrible">Drrrible</a>: Dribbble for iOS using ReactorKit (<a href="https://itunes.apple.com/us/app/drrrible/id1229592223?mt=8">App Store</a>)</li>
-<li><a href="https://github.com/cruisediary/Passcode">Passcode</a>: Passcode for iOS Rxswift, ReactorKit and IGListKit example</li>
+<li><a href="https://github.com/cruisediary/Passcode">Passcode</a>: Passcode for iOS RxSwift, ReactorKit and IGListKit example</li>
 </ul>
 <a href='#dependencies' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h2 id='dependencies'>Dependencies</h2>
 
@@ -354,12 +481,12 @@
 </ul>
 <a href='#license' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h2 id='license'>License</h2>
 
-<p>ReactorKit is under MIT license. See the <a href="LICENSE">LICENSE</a> for more info.</p>
+<p>ReactorKit is under MIT license. See the <a href="https://github.com/ReactorKit/ReactorKit/blob/master/LICENSE">LICENSE</a> for more info.</p>
 
           </section>
         </section>
         <section id="footer">
-          <p>&copy; 2017 <a class="link" href="https://xoul.kr" target="_blank" rel="external">Suyeol Jeon</a>. All rights reserved. (Last updated: 2017-06-09)</p>
+          <p>&copy; 2017 <a class="link" href="https://xoul.kr" target="_blank" rel="external">Suyeol Jeon</a>. All rights reserved. (Last updated: 2017-07-25)</p>
           <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.7.5</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
         </section>
       </article>

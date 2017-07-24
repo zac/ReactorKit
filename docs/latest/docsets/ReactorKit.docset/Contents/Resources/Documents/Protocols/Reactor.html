@@ -14,7 +14,7 @@
     <a title="Reactor Protocol Reference"></a>
     <header>
       <div class="content-wrapper">
-        <p><a href="../index.html">ReactorKit Docs</a> (57% documented)</p>
+        <p><a href="../index.html">ReactorKit Docs</a> (62% documented)</p>
         <p class="header-right"><a href="https://github.com/ReactorKit/ReactorKit"><img src="../img/gh.png"/>View on GitHub</a></p>
         <p class="header-right"><a href="dash-feed://http%3A%2F%2Freactorkit%2Eio%2Fdocsets%2FReactorKit%2Exml"><img src="../img/dash.png"/>Install in Dash</a></p>
       </div>
@@ -35,16 +35,25 @@
               <li class="nav-group-task">
                 <a href="../Classes/ActionSubject.html">ActionSubject</a>
               </li>
+              <li class="nav-group-task">
+                <a href="../Classes/Stub.html">Stub</a>
+              </li>
             </ul>
           </li>
           <li class="nav-group-name">
             <a href="../Protocols.html">Protocols</a>
             <ul class="nav-group-tasks">
               <li class="nav-group-task">
+                <a href="../Protocols.html#/s:P10ReactorKit21AssociatedObjectStore">AssociatedObjectStore</a>
+              </li>
+              <li class="nav-group-task">
                 <a href="../Protocols/Reactor.html">Reactor</a>
               </li>
               <li class="nav-group-task">
                 <a href="../Protocols/View.html">View</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/_ObjcCompatibleView.html">_ObjcCompatibleView</a>
               </li>
             </ul>
           </li>
@@ -65,7 +74,16 @@
         <section>
           <section class="section">
             <h1>Reactor</h1>
-            <p>Undocumented</p>
+              <div class="declaration">
+                <div class="language">
+                  <pre class="highlight"><code><span class="kd">public</span> <span class="kd">protocol</span> <span class="kt">Reactor</span><span class="p">:</span> <span class="kd">class</span><span class="p">,</span> <span class="kt"><a href="../Protocols.html#/s:P10ReactorKit21AssociatedObjectStore">AssociatedObjectStore</a></span></code></pre>
+
+                </div>
+              </div>
+            <p>A Reactor is an UI-independent layer which manages the state of a view. The foremost role of a
+reactor is to separate control flow from a view. Every view has its corresponding reactor and
+delegates all logic to its reactor. A reactor has no dependency to a view, so it can be easily
+tested.</p>
 
           </section>
           <section class="section task-group-section">
@@ -99,7 +117,88 @@
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="k">var</span> <span class="nv">action</span><span class="p">:</span> <span class="kt"><a href="../Classes/ActionSubject.html">ActionSubject</a></span><span class="o">&lt;</span><span class="kt">Action</span><span class="o">&gt;</span></code></pre>
+                          <pre class="highlight"><code><span class="k">var</span> <span class="nv">action</span><span class="p">:</span> <span class="kt"><a href="../Classes/ActionSubject.html">ActionSubject</a></span><span class="o">&lt;</span><span class="kt"><a href="../Protocols/Reactor.html#/s:P10ReactorKit7Reactor6Action">Action</a></span><span class="o">&gt;</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:P10ReactorKit7Reactor6Action"></a>
+                    <a name="//apple_ref/swift/Alias/Action" class="dashAnchor"></a>
+                    <a class="token" href="#/s:P10ReactorKit7Reactor6Action">Action</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>An action represents user actions.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="k">associatedtype</span> <span class="kt">Action</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:P10ReactorKit7Reactor8Mutation"></a>
+                    <a name="//apple_ref/swift/Alias/Mutation" class="dashAnchor"></a>
+                    <a class="token" href="#/s:P10ReactorKit7Reactor8Mutation">Mutation</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>A mutation represents state changes.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="k">associatedtype</span> <span class="kt">Mutation</span> <span class="o">=</span> <span class="kt"><a href="../Protocols/Reactor.html#/s:P10ReactorKit7Reactor6Action">Action</a></span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:P10ReactorKit7Reactor5State"></a>
+                    <a name="//apple_ref/swift/Alias/State" class="dashAnchor"></a>
+                    <a class="token" href="#/s:P10ReactorKit7Reactor5State">State</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>A State represents the current state of a view.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="k">associatedtype</span> <span class="kt">State</span></code></pre>
 
                         </div>
                       </div>
@@ -126,7 +225,7 @@
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="k">var</span> <span class="nv">initialState</span><span class="p">:</span> <span class="kt">State</span></code></pre>
+                          <pre class="highlight"><code><span class="k">var</span> <span class="nv">initialState</span><span class="p">:</span> <span class="kt"><a href="../Protocols/Reactor.html#/s:P10ReactorKit7Reactor5State">State</a></span></code></pre>
 
                         </div>
                       </div>
@@ -161,7 +260,7 @@
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="k">var</span> <span class="nv">currentState</span><span class="p">:</span> <span class="kt">State</span></code></pre>
+                          <pre class="highlight"><code><span class="k">var</span> <span class="nv">currentState</span><span class="p">:</span> <span class="kt"><a href="../Protocols/Reactor.html#/s:P10ReactorKit7Reactor5State">State</a></span></code></pre>
 
                         </div>
                       </div>
@@ -196,7 +295,7 @@
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="k">var</span> <span class="nv">state</span><span class="p">:</span> <span class="kt">Observable</span><span class="o">&lt;</span><span class="kt">State</span><span class="o">&gt;</span></code></pre>
+                          <pre class="highlight"><code><span class="k">var</span> <span class="nv">state</span><span class="p">:</span> <span class="kt">Observable</span><span class="o">&lt;</span><span class="kt"><a href="../Protocols/Reactor.html#/s:P10ReactorKit7Reactor5State">State</a></span><span class="o">&gt;</span></code></pre>
 
                         </div>
                       </div>
@@ -231,7 +330,7 @@ called once before the state stream is created.</p>
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">func</span> <span class="nf">transform</span><span class="p">(</span><span class="nv">action</span><span class="p">:</span> <span class="kt">Observable</span><span class="o">&lt;</span><span class="kt">Action</span><span class="o">&gt;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Observable</span><span class="o">&lt;</span><span class="kt">Action</span><span class="o">&gt;</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">func</span> <span class="nf">transform</span><span class="p">(</span><span class="nv">action</span><span class="p">:</span> <span class="kt">Observable</span><span class="o">&lt;</span><span class="kt"><a href="../Protocols/Reactor.html#/s:P10ReactorKit7Reactor6Action">Action</a></span><span class="o">&gt;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Observable</span><span class="o">&lt;</span><span class="kt"><a href="../Protocols/Reactor.html#/s:P10ReactorKit7Reactor6Action">Action</a></span><span class="o">&gt;</span></code></pre>
 
                         </div>
                       </div>
@@ -266,7 +365,7 @@ async tasks.</p>
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">func</span> <span class="nf">mutate</span><span class="p">(</span><span class="nv">action</span><span class="p">:</span> <span class="kt">Action</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Observable</span><span class="o">&lt;</span><span class="kt">Mutation</span><span class="o">&gt;</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">func</span> <span class="nf">mutate</span><span class="p">(</span><span class="nv">action</span><span class="p">:</span> <span class="kt"><a href="../Protocols/Reactor.html#/s:P10ReactorKit7Reactor6Action">Action</a></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Observable</span><span class="o">&lt;</span><span class="kt"><a href="../Protocols/Reactor.html#/s:P10ReactorKit7Reactor8Mutation">Mutation</a></span><span class="o">&gt;</span></code></pre>
 
                         </div>
                       </div>
@@ -301,7 +400,7 @@ observables. This method is called once before the state stream is created.</p>
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">func</span> <span class="nf">transform</span><span class="p">(</span><span class="nv">mutation</span><span class="p">:</span> <span class="kt">Observable</span><span class="o">&lt;</span><span class="kt">Mutation</span><span class="o">&gt;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Observable</span><span class="o">&lt;</span><span class="kt">Mutation</span><span class="o">&gt;</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">func</span> <span class="nf">transform</span><span class="p">(</span><span class="nv">mutation</span><span class="p">:</span> <span class="kt">Observable</span><span class="o">&lt;</span><span class="kt"><a href="../Protocols/Reactor.html#/s:P10ReactorKit7Reactor8Mutation">Mutation</a></span><span class="o">&gt;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Observable</span><span class="o">&lt;</span><span class="kt"><a href="../Protocols/Reactor.html#/s:P10ReactorKit7Reactor8Mutation">Mutation</a></span><span class="o">&gt;</span></code></pre>
 
                         </div>
                       </div>
@@ -337,7 +436,7 @@ mutation is committed.</p>
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">func</span> <span class="nf">reduce</span><span class="p">(</span><span class="nv">state</span><span class="p">:</span> <span class="kt">State</span><span class="p">,</span> <span class="nv">mutation</span><span class="p">:</span> <span class="kt">Mutation</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">State</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">func</span> <span class="nf">reduce</span><span class="p">(</span><span class="nv">state</span><span class="p">:</span> <span class="kt"><a href="../Protocols/Reactor.html#/s:P10ReactorKit7Reactor5State">State</a></span><span class="p">,</span> <span class="nv">mutation</span><span class="p">:</span> <span class="kt"><a href="../Protocols/Reactor.html#/s:P10ReactorKit7Reactor8Mutation">Mutation</a></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt"><a href="../Protocols/Reactor.html#/s:P10ReactorKit7Reactor5State">State</a></span></code></pre>
 
                         </div>
                       </div>
@@ -372,7 +471,7 @@ method is called once after the state stream is created.</p>
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">func</span> <span class="nf">transform</span><span class="p">(</span><span class="nv">state</span><span class="p">:</span> <span class="kt">Observable</span><span class="o">&lt;</span><span class="kt">State</span><span class="o">&gt;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Observable</span><span class="o">&lt;</span><span class="kt">State</span><span class="o">&gt;</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">func</span> <span class="nf">transform</span><span class="p">(</span><span class="nv">state</span><span class="p">:</span> <span class="kt">Observable</span><span class="o">&lt;</span><span class="kt"><a href="../Protocols/Reactor.html#/s:P10ReactorKit7Reactor5State">State</a></span><span class="o">&gt;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Observable</span><span class="o">&lt;</span><span class="kt"><a href="../Protocols/Reactor.html#/s:P10ReactorKit7Reactor5State">State</a></span><span class="o">&gt;</span></code></pre>
 
                         </div>
                       </div>
@@ -402,6 +501,48 @@ method is called once after the state stream is created.</p>
                         <p>Undocumented</p>
 
                       </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">protocol</span> <span class="kt">Reactor</span><span class="p">:</span> <span class="kd">class</span><span class="p">,</span> <span class="kt"><a href="../Protocols.html#/s:P10ReactorKit21AssociatedObjectStore">AssociatedObjectStore</a></span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <ul>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:vE10ReactorKitPS_7Reactor4stubGCS_4Stubx_"></a>
+                    <a name="//apple_ref/swift/Property/stub" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vE10ReactorKitPS_7Reactor4stubGCS_4Stubx_">stub</a>
+                    </code>
+                      <span class="declaration-note">
+                        Extension method
+                      </span>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Undocumented</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">protocol</span> <span class="kt">Reactor</span><span class="p">:</span> <span class="kd">class</span><span class="p">,</span> <span class="kt"><a href="../Protocols.html#/s:P10ReactorKit21AssociatedObjectStore">AssociatedObjectStore</a></span></code></pre>
+
+                        </div>
+                      </div>
                     </section>
                   </div>
                 </li>
@@ -410,7 +551,7 @@ method is called once after the state stream is created.</p>
           </section>
         </section>
         <section id="footer">
-          <p>&copy; 2017 <a class="link" href="https://xoul.kr" target="_blank" rel="external">Suyeol Jeon</a>. All rights reserved. (Last updated: 2017-06-09)</p>
+          <p>&copy; 2017 <a class="link" href="https://xoul.kr" target="_blank" rel="external">Suyeol Jeon</a>. All rights reserved. (Last updated: 2017-07-25)</p>
           <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.7.5</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
         </section>
       </article>
