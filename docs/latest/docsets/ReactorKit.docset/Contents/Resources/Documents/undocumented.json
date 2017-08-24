@@ -23,37 +23,79 @@
     },
     {
       "file": "/Users/xoul/workspace/ReactorKit/Sources/ReactorKit/Reactor.swift",
-      "line": 77,
+      "line": 84,
       "symbol": "Reactor.action",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/xoul/workspace/ReactorKit/Sources/ReactorKit/Reactor.swift",
-      "line": 85,
+      "line": 90,
       "symbol": "Reactor.currentState",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/xoul/workspace/ReactorKit/Sources/ReactorKit/Reactor.swift",
-      "line": 90,
+      "line": 95,
       "symbol": "Reactor.state",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/xoul/workspace/ReactorKit/Sources/ReactorKit/Reactor.swift",
-      "line": 102,
+      "line": 107,
       "symbol": "Reactor.createStateStream()",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/xoul/workspace/ReactorKit/Sources/ReactorKit/Reactor.swift",
-      "line": 159,
+      "line": 164,
       "symbol": "Reactor.stub",
       "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/xoul/workspace/ReactorKit/Sources/ReactorKit/StoryboardView.swift",
+      "line": null,
+      "symbol": "StoryboardView",
+      "symbol_kind": "source.lang.swift.decl.extension",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/xoul/workspace/ReactorKit/Sources/ReactorKit/StoryboardView.swift",
+      "line": 12,
+      "symbol": "_ObjCStoryboardView",
+      "symbol_kind": "source.lang.swift.decl.protocol",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/xoul/workspace/ReactorKit/Sources/ReactorKit/StoryboardView.swift",
+      "line": 13,
+      "symbol": "_ObjCStoryboardView.performBinding()",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/xoul/workspace/ReactorKit/Sources/ReactorKit/StoryboardView.swift",
+      "line": 16,
+      "symbol": "StoryboardView",
+      "symbol_kind": "source.lang.swift.decl.protocol",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/xoul/workspace/ReactorKit/Sources/ReactorKit/StoryboardView.swift",
+      "line": 20,
+      "symbol": "StoryboardView.reactor",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/xoul/workspace/ReactorKit/Sources/ReactorKit/StoryboardView.swift",
+      "line": 35,
+      "symbol": "StoryboardView.performBinding()",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
     },
     {
@@ -100,30 +142,9 @@
     },
     {
       "file": "/Users/xoul/workspace/ReactorKit/Sources/ReactorKit/View.swift",
-      "line": 22,
-      "symbol": "_ObjcCompatibleView",
-      "symbol_kind": "source.lang.swift.decl.protocol",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/xoul/workspace/ReactorKit/Sources/ReactorKit/View.swift",
-      "line": 23,
-      "symbol": "_ObjcCompatibleView.performBinding()",
-      "symbol_kind": "source.lang.swift.decl.function.method.instance",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/xoul/workspace/ReactorKit/Sources/ReactorKit/View.swift",
-      "line": 72,
+      "line": 56,
       "symbol": "View.reactor",
       "symbol_kind": "source.lang.swift.decl.var.instance",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/xoul/workspace/ReactorKit/Sources/ReactorKit/View.swift",
-      "line": 89,
-      "symbol": "View.performBinding()",
-      "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
     }
   ],
